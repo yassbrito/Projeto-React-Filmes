@@ -10,9 +10,9 @@ const Cadastro = (props) => {
                 <div className="campos_cadastro">
                     <div className="campo_cad_nome">
                         <label htmlFor="nome">Nome</label>
-                        <input type="text" name="Nome"/>
+                        <input type="text" name="Nome" placeholder={`Digite o nome do ${props.placeholder}`}/>
                     </div>
-                    <div className="campo_cad_genero">
+                    <div className="campo_cad_genero" style={{display:props.visibilidade}}>
                         <label htmlFor="genero">Gênero</label>
                         <select name="genero" id="">
                         <option value="" disable selected>Selecione</option>
