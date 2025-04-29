@@ -35,18 +35,22 @@
     width: 100%;
 }
 
-.cabecalho :first-child{
+.table_cabecalho :first-child{
     width: 300px;
 }
 
-.cabecalho :nth-child(2){
+.table_cabecalho :nth-child(2){
     width: 100px;
 }
 
-.tabela .cabecalho th{
+.tabela .table_cabecalho th{
     width: 100px;
 }
 
 .item_lista td{
     padding: 20px 0 5px 0;
+}
+
+.item_lista{
+    text-align: center;
 }
