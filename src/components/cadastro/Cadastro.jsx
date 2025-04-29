@@ -1,11 +1,11 @@
 import "./Cadastro.css";
 import Botao from "../botao/Botao";
 
-const Cadastro = () => {
+const Cadastro = (props) => {
     return(
         <section className="section_cadastro">
             <form action="" className="layout_grid from_cadastro">
-                <h1>Cadastro de filme</h1>
+                <h1>{props.tituloCadastro}</h1>
                 <hr/>
                 <div className="campos_cadastro">
                     <div className="campo_cad_nome">
@@ -22,7 +22,7 @@ const Cadastro = () => {
 
                         </select>
                     </div>
-                    <Botao/>
+                    <Botao nomeDoBotao="Cadastrar😆✌️"/>
                 </div>
             </form>
         </section>

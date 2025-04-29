@@ -18,10 +18,10 @@ const Lista = () => {
                     </thead>
                     <tbody>
                         <tr className="item_lista">
-                            <td>Velozes e furiosos</td>
-                            <td>Açao</td>
-                            <td><img src={Editar} alt="Caneta"/></td>
-                            <td><img src={Excluir} alt="Lixeira"/></td>
+                            <td data-cell="Nome">Harry Potter e a pedra Filosofal</td>
+                            <td data-cell="Genero">Açao</td>
+                            <td data-cell="Editar"><img src={Editar} alt="Caneta"/></td>
+                            <td data-cell="Excluir"><img src={Excluir} alt="Lixeira"/></td>
                         </tr>
                     </tbody>
                 </table>

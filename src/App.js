@@ -1,15 +1,11 @@
-
 import './App.css';
-// import Login from "./pages/login/Login"
-import CadastroFilme from './pages/cadastroFilme/CadastroFilme';
+import  Routes  from "./Routes/routes";
+
 
 function App() {
   return (
-    <>
-    {/* chamar as paginas */}
-    {/* <Login/> */}
-    <CadastroFilme/>
-    </>
+    <Routes/>
+    
   );
 }
 
