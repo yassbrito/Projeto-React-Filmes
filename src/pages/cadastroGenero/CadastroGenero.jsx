@@ -15,23 +15,25 @@ import Lista from "../../components/lista/Lista";
 const CadastroGenero = () => {
     //nome do genero
     const [genero, setGenero] = useState("");
+    const [listaGenero, setListaGenero] = useState([]);
+    const [excluirGenero, setExcluirGenero] = useState([]);
 
-    function alerta(icone, mensagem){
+    function alerta(icone, mensagem) {
         const Toast = Swal.mixin({
-  toast: true,
-  position: "top-end",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  }
-});
-Toast.fire({
-  icon: icone,
-  title: mensagem
-});
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: icone,
+            title: mensagem
+        });
     }
     async function cadastrarGenero(evt) {
         evt.preventDefault();
@@ -43,10 +45,10 @@ Toast.fire({
             try {
                 //cadastrar um genero: post
                 await api.post("genero", { nome: genero });
-                alerta("Sucess", "Cadastro realizado com sucesso!")
-                setGenero("");
+                alerta("success", "Cadastro realizado com sucesso!")
+               
             } catch (error) {
-                alerta("Error", "Erro! Entre em contato com o suporte!")
+                alerta("error", "Erro! Entre em contato com o suporte!")
                 console.log(error);
             }
         } else {
@@ -55,12 +57,59 @@ Toast.fire({
 
     }
 
+    //sincrono => acontece simultaneamente.
+    //assincrono => esperar algo/resposta para ir para outro bloco do codigo.
+    async function listarGenero() {
+        try {
+            //await => Aguarde ter uma respostada solicitacao
+            const resposta = await api.get("genero");
+            //   console.log(resposta);
+            setListaGenero(resposta.data);
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
+    //funcao de excluir o genero:
+    async function deletarGenero(generoId) {
+        try {
+
+            Swal.fire({
+                title: "Você tem certeza?",
+                text: "Você não conseguira reverter!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6", 
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sim, deletar!"
+            }).then(async(result) => {
+                if (result.isConfirmed) {
+                    await api.delete(`genero/${generoId.idGenero}`);
+                    Swal.fire({
+                        title: "Deletado!",
+                        text: "Seu item foi deletado!",
+                        icon: "success"
+                    });
+                }
+            });
+            listaGenero ();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     //teste: validar o genero
     // useEffect(() =>{
     //     console.log(genero);
     // },[genero]);
 
     //fim do teste
+
+
+    useEffect(() => {
+        listarGenero();
+    }, [listaGenero]);
 
     return (
         <>
@@ -84,6 +133,11 @@ Toast.fire({
                 <Lista
                     tituloLista="Lista de Gênero"
                     visibilidade="none"
+
+                    //atribuir para lista, o meu estado atual:
+                    lista={listaGenero}
+
+                    funcExcluir = {deletarGenero}
                 />
             </main>
             <Footer />

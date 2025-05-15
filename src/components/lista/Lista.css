@@ -58,6 +58,12 @@
     border-bottom: solid 1px #73061b20;
 }
 
+.botao_Excluir{
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
 
 .tabela thead{
