@@ -12,13 +12,19 @@ import Header from "../../components/header/Header";
 import Lista from "../../components/lista/Lista";
 
 
+//function() = {} funcao
+//() => {} funcao anonima ou arrow function
+//------------------ funcao ---- dependencia
+//hooks: useEffect( () => {} ,        []     )
+
 const CadastroGenero = () => {
     //nome do genero
+    //so criamos useStates quando precisamos guardar uma informaçao que muda e que o react
     const [genero, setGenero] = useState("");
     const [listaGenero, setListaGenero] = useState([]);
     const [excluirGenero, setExcluirGenero] = useState([]);
 
-    function alerta(icone, mensagem) {
+    function alertar(icone, mensagem) {
         const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -45,10 +51,12 @@ const CadastroGenero = () => {
             try {
                 //cadastrar um genero: post
                 await api.post("genero", { nome: genero });
-                alerta("success", "Cadastro realizado com sucesso!")
-               
+                alertar("success", "Cadastro realizado com sucesso!")
+                setGenero("");
+
+                listarGenero();
             } catch (error) {
-                alerta("error", "Erro! Entre em contato com o suporte!")
+                alertar("error", "Erro! Entre em contato com o suporte!")
                 console.log(error);
             }
         } else {
@@ -71,6 +79,7 @@ const CadastroGenero = () => {
         }
     }
 
+
     //funcao de excluir o genero:
     async function deletarGenero(generoId) {
         try {
@@ -80,10 +89,10 @@ const CadastroGenero = () => {
                 text: "Você não conseguira reverter!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6", 
+                confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Sim, deletar!"
-            }).then(async(result) => {
+            }).then(async (result) => {
                 if (result.isConfirmed) {
                     await api.delete(`genero/${generoId.idGenero}`);
                     Swal.fire({
@@ -93,9 +102,36 @@ const CadastroGenero = () => {
                     });
                 }
             });
-            listaGenero ();
+            listaGenero();
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async function editarGenero(generoId) {
+        console.log(generoId);
+        const { value: novoGenero } = await Swal.fire({
+            title: "Modifique seu gênero",
+            input: "text",
+            inputLabel: "Novo Gênero",
+            inputValue: generoId.nome,
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return "O campo precisa estar preenchido!";
+                }
+            }
+        });
+        if (novoGenero) {
+            try {
+                // console.log(genero.nome);
+                // console.log(novoGenero);
+                api.put(`genero/${generoId.idGenero}`, {nome: novoGenero});
+                Swal.fire(`O genero modificado ${novoGenero}`);
+            } catch (error) {
+                console.log(error);
+            }
+            // Swal.fire(`O gênero modifcado ${novoGenero}`);
         }
     }
 
@@ -137,7 +173,8 @@ const CadastroGenero = () => {
                     //atribuir para lista, o meu estado atual:
                     lista={listaGenero}
 
-                    funcExcluir = {deletarGenero}
+                    funcExcluir={deletarGenero}
+                    funcEditar={editarGenero}
                 />
             </main>
             <Footer />
